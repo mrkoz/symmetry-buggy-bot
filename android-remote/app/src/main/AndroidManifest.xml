@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ninja.symmetry.spider">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".setMinMaxValuesDialog"
+            android:label="@string/title_activity_leg_tweak_dialog" />
+        <activity
+            android:name=".stanceTweakActivity"
+            android:label="@string/title_activity_stance_tweak" />
+        <activity
+            android:name=".robotIdActivity"
+            android:label="@string/title_activity_robot_id" />
+        <activity
+            android:name=".serialTestActivity"
+            android:label="@string/title_activity_serial_test" />
+        <activity
+            android:name=".ServoBasicMotion"
+            android:label="@string/title_activity_servo_basic_motion" />
+        <activity android:name=".walking_joystick" />
+    </application>
+
+</manifest>

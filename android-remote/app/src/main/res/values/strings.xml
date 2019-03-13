@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Arduino buggy controller</string>
+    <string name="command">Command</string>
+    <string name="module">Module</string>
+    <string name="item">feature</string>
+    <string name="value">Value</string>
+    <string name="send">Send</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_leg_tweak_dialog">legTweakDialog</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tweak_walking_profile">tweakWalkingProfile</string>
+    <string name="title_activity_stance_tweak">stanceTweakActivity</string>
+    <string name="title_activity_robot_identity">Identity</string>
+    <string name="title_activity_robot_id">Robot Id</string>
+    <string name="title_activity_serial_test">Testing the serial</string>
+    <string name="title_activity_servo_basic_motion">ServoBasicMotion</string>
+    <string name="serial_port_name">ninja.symmetry.spiders.serial.portname</string>
+    <string name="title_activity_joystick">joystickActivity</string>
+    <string name="title_activity_basic_absolutes">basic_absolutes</string>
+    <string name="rotate2b">rotate2B</string>
+
+
+</resources>
