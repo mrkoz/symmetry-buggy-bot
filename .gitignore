@@ -1,0 +1,5 @@
+.DS_Store
+/android-code/.idea
+/android-code/.gradle
+/android-code/local.properties
+/android-code/build

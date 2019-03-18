@@ -3,11 +3,13 @@
 **************************************************************************************************/
   #include <Timer.h>                  // A rather useful timer library to offset the comms loop requirement to the motion requirement
   #include <SymmetrySerial.h>         // My balanced protocol
-  #include "comms.h"         // Spider command protocol and general stuff
+  #include "comms.h"                  // Spider command protocol and general stuff
 
 /*************************************************************************************************
 ** runtime, stats and configuration defines, loop, startup and setup methods
 **************************************************************************************************/
+  #define BTBAUDRATE 9600 // Baud rate of the serial port
+  #define BTHEARTBEATRATE 2000 //send a helo every 2 seconds
   SymmetrySerial bluetoothComms(&Serial3, BTBAUDRATE, BTHEARTBEATRATE);
   
   Timer motionTimer;
@@ -19,9 +21,6 @@
   uint16_t heartbeatCount = 0;
   uint16_t failedMessageCount = 0;
   uint16_t successMessageCount = 0;
-  int movementCyclesCount = 0;
-  int servoMovementsCount = 0;
-  unsigned long lastContinue = 0;
 
   //message buffers
   char outputMessage[250];
@@ -36,13 +35,7 @@
 
   void setup(void) {   
     // start up the serial ports
-    startupSetupSerial();
-
-    // load the settings and profiles
-    startupLoadSettingsAndProfiles();
-
-    // startup the timers
-    startupStartTimers();
+    startupSetupSerialAndTimers();
 
     // do a loop so we're ready to rock
     lastHeartbeat = millis();
@@ -63,17 +56,13 @@
   }
 
   /** Start up the serial ports */
-  void startupSetupSerial() {
+  void startupSetupSerialAndTimers() {
     // Debugging serial port setup
     Serial.begin(SERIALBOUDRATE);
     // Bluetooth Comms setup
     bluetoothComms.setCallBacks(ProcessComMessage, recieveStatusMessage);
     bluetoothComms.connect();
-  }
 
-
-  /** Startup the timers */
-  void startupStartTimers() {
     // Setup the motion timer
     motiontimerid = motionTimer.every(walkPhaseTime, servoContinue);
     // Setup the UI update timer

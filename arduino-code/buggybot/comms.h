@@ -1,8 +1,6 @@
 /**************************************************************************************************
-** Serial defines & variables
+** Message Defines
 **************************************************************************************************/
-  #define BTBAUDRATE 9600
-  #define BTHEARTBEATRATE 2000 //send a helo every 2 seconds
 
   /* status messages */
   #define STATUS_DEBUG_ON 0xF0
@@ -31,6 +29,8 @@
   #define FEATURE_EXEC_4 FEATURE_EXEC + 0x04
   #define FEATURE_EXEC_5 FEATURE_EXEC + 0x05
   #define FEATURE_EXEC_6 FEATURE_EXEC + 0x06
+  #define FEATURE_EXEC_7 FEATURE_EXEC + 0x07
+  #define FEATURE_EXEC_8 FEATURE_EXEC + 0x08
 
 /**************************************************************************************************
 ** Timers etc
