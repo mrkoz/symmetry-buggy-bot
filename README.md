@@ -6,7 +6,7 @@ Why not use MQTT do you ask? because this is a lot smaller and easier to impleme
 
 The reason for this repository is to help people to build a basic robot buggy that has direct control from a remote for sumo-battles.
 
-*** pics of a couple of buggies
+![gfx/buggy-kit.jpg](gfx/buggy-kit.jpg)
 
 The way this is structured, you can make modifications to just the Arduino code to utilise the Android app as a simple remote control and get some stuff done easily.
 
@@ -78,10 +78,6 @@ Comments are sectional and verbose.
 The reason for the weird indentation is that Arduino code is simplified syntax and to retain the simplified syntax you need to have everything in one file which means that some of my robots have 5-6000 lines of code and without collapsible blocks in an UI is very tiring...
 
 If you don't like it, I don't care, change it and be happy.
-
-### Example wiring diagram
-
-*** TBA
 
 ### Get the right serial port and baud rate
 
