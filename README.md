@@ -2,13 +2,15 @@
 
 This is a basic repo with both an Android APP and an Arduino sketch that allows simple communication between two devices.
 
-Why not use MQTT do you ask? because this is a lot smaller and easier to implement, this will work on an arduino micro with 2kb of memory and not eat up all your resources.
+Why not use MQTT do you ask? because this is a lot smaller and easier to implement, this will work on an Arduino micro with 2kb of memory and not eat up all your resources.
 
 The reason for this repository is to help people to build a basic robot buggy that has direct control from a remote for sumo-battles.
 
 *** pics of a couple of buggies
 
 The way this is structured, you can make modifications to just the Arduino code to utilise the Android app as a simple remote control and get some stuff done easily.
+
+Out of the box the buggy code will be able to drive forward **or** backward **or** rotate clockwise **or** anticlockwise.
 
 ## The android app
 
@@ -20,7 +22,7 @@ It also has a communications protocol called `symmetry.serial` with heart-beat a
 
 The Arduino Sketch has the communication protocol to match the android app and the method calls for the directional stick code and the extra buttons. The code to execute on these things is all stubbed out.
 
-## Dependancies
+## Dependencies
 
 The arduino code needs to have the following modules cloned into your library folder:
 
@@ -40,7 +42,7 @@ First thing you need to do is copy the code out into your own repo. You can do t
 
 1. Clone down this repo to a different place
 2. Delete the `.git` folder in the cloned repo
-3. Create your own repo somewhere and clone it *-- or --* just `git init`
+3. Create your own repo somewhere and clone it **or** just `git init`
 4. Move the files from this repo into your new cloned repo
 5. `git add` all the files you just moved into your new repo folder
 6. `git commit` the files
@@ -65,7 +67,7 @@ git push origin master
 
 ## How to use - Arduino
 
-The code expects that you have a serial port wired up to a bluetooth device.
+The code expects that you have a serial port wired up to a Bluetooth device.
 
 ### Weird indentation and comments
 
@@ -73,9 +75,9 @@ The code is indented with 2 spaces and has a non-standard indention increment. T
 
 Comments are sectional and verbose.
 
-The reason for the weird indentation is that Arduino code is simplified syntax and to retain the simplified syntax you need to have everything in one file which means that some of my robots have 5-6000 lines of code and without collapsable blocks in an UI is very tiring...
+The reason for the weird indentation is that Arduino code is simplified syntax and to retain the simplified syntax you need to have everything in one file which means that some of my robots have 5-6000 lines of code and without collapsible blocks in an UI is very tiring...
 
-If you don't like it, change it.
+If you don't like it, I don't care, change it and be happy.
 
 ### Example wiring diagram
 
@@ -85,7 +87,7 @@ If you don't like it, change it.
 
 Your baud rate could be any standard baud rate, in general `9600` is a good starting amount. Speeding it up wont really do much because this protocol isn't very big so the time it takes to pipe a string correctly is longer than the serial transaction takes at any baud rate - it's worth while experimenting on higher board rates.
 
-Update this line to match your serial port, specifically the `&Serial3` *Note:* you need the ampersand.
+Update this line to match your serial port, specifically the `&Serial3` **Note:** you need the ampersand.
 
 ```C++
   #define BTBAUDRATE 9600
@@ -109,6 +111,7 @@ To handle what the directional stick does modify the function `commandReceivedDr
   * 101-200 is right strength
 
 To do something a little extra, modify the function `commandReceivedExec`. It's just an execution router; some ideas:
+
 * The tipper - hook up a servo to a digger bucket and pre-program some values for up and down
   * function 1 could lift a tipper to the top
   * function 2 could drop a tipper to the floor
@@ -118,10 +121,25 @@ To do something a little extra, modify the function `commandReceivedExec`. It's 
 
 ## How to use - Android
 
-Modifications aren't really useful.
+It's pretty self-contained :) just compile it and deploy.
+
+## Challenges
+
+It wouldn't be a free-bee without a challenge or 11.
+
+1. Deploy both the arduino and the android code
+2. See an instruction sent from the android device to the arduino device in the debug console
+3. Make it drive fwd/reverse
+4. Make it turn and drive forward/reverse **note** this requires changing the android app too
+
+### more advanced challenges
+
+1. Add a raspberry pi and a camera
+2. Make it stream video to a web browser
+3. Make it follow a line using computer vision
 
 ## Future stuff
 
 The `symmetry.serial` protocol doesn't have a python variant or a variant that works on raspberry pi, the next version will and will be able to be implemented to drive the robot from a raspberry pi if needed.
 
-Realistically if you were to do something a bit advanced, you'd use ROS and the ROS-Aduino bridge and the `symmetry.serial` protocol wouldn't be needed.
+Realistically if you were to do something a bit advanced, you'd use ROS and the ROS-Arduino bridge and the `symmetry.serial` protocol wouldn't be needed.

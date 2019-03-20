@@ -1,11 +1,11 @@
-package ninja.symmetry.spider.serial.Packets;
+package ninja.symmetry.robobuggy.serial.Packets;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import android.util.Log;
 
-import ninja.symmetry.spider.serial.SERDevice;
+import ninja.symmetry.robobuggy.serial.SERDevice;
 
 
 /**
@@ -37,12 +37,24 @@ public class SERPacket {
 
 
     /* Features in the controller */
-    public static final int FEATURE_WALK         = 0x10;
-    public static final int FEATURE_MIN_MAX      = 0x20;
-    public static final int FEATURE_STANCE       = 0x30;
-    public static final int FEATURE_ID           = 0x50;
-    public static final int FEATURE_BASIC_MOTION = 0x70;
-    public static final int FEATURE_TEST         = 0x80;
+    public static final int FEATURE_DRIVE  = 0x10;
+    public static final int FEATURE_DRIVE_FORWARD        = FEATURE_DRIVE + 0x01;
+    public static final int FEATURE_DRIVE_REVERSE        = FEATURE_DRIVE + 0x02;
+    public static final int FEATURE_DRIVE_ANTICLOCKWISE  = FEATURE_DRIVE + 0x03;
+    public static final int FEATURE_DRIVE_CLOCKWISE      = FEATURE_DRIVE + 0x04;
+
+    public static final int FEATURE_STOP  = 0x20;
+
+
+    public static final int FEATURE_EXEC   = 0x30;
+    public static final int FEATURE_EXEC_1 = FEATURE_EXEC + 0x01;
+    public static final int FEATURE_EXEC_2 = FEATURE_EXEC + 0x02;
+    public static final int FEATURE_EXEC_3 = FEATURE_EXEC + 0x03;
+    public static final int FEATURE_EXEC_4 = FEATURE_EXEC + 0x04;
+    public static final int FEATURE_EXEC_5 = FEATURE_EXEC + 0x05;
+    public static final int FEATURE_EXEC_6 = FEATURE_EXEC + 0x06;
+    public static final int FEATURE_EXEC_7 = FEATURE_EXEC + 0x07;
+    public static final int FEATURE_EXEC_8 = FEATURE_EXEC + 0x08;
 
     /** function type **/
 

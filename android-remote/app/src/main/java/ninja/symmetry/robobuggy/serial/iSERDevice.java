@@ -1,6 +1,6 @@
-package ninja.symmetry.spider.serial;
+package ninja.symmetry.robobuggy.serial;
 
-import ninja.symmetry.spider.serial.Packets.SERPacket;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
 
 /**
  * Created by koz on 17/07/2014.

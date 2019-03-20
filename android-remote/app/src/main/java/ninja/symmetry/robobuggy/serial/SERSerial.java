@@ -1,4 +1,4 @@
-package ninja.symmetry.spider.serial;
+package ninja.symmetry.robobuggy.serial;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -6,14 +6,14 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import java.util.List;
 
-import ninja.symmetry.spider.iMessageReceivableActivity;
-import ninja.symmetry.spider.serial.Packets.SERPacket;
-import ninja.symmetry.spider.serial.Packets.SERPacketCommand;
-import ninja.symmetry.spider.serial.Packets.SERPacketCommandWithData;
-import ninja.symmetry.spider.serial.Packets.SERPacketCommandWithSingle;
-import ninja.symmetry.spider.R;
+import ninja.symmetry.robobuggy.iMessageReceivableActivity;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacketCommand;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacketCommandWithData;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacketCommandWithSingle;
+import ninja.symmetry.robobuggy.R;
 
-import static ninja.symmetry.spider.serial.SERDevice.TAG_CON;
+import static ninja.symmetry.robobuggy.serial.SERDevice.TAG_CON;
 
 /**
  * Created by koz on 14/07/2014.

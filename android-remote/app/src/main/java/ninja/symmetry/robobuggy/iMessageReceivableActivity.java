@@ -1,8 +1,6 @@
-package ninja.symmetry.spider;
+package ninja.symmetry.robobuggy;
 
-import android.app.Activity;
-
-import ninja.symmetry.spider.serial.Packets.SERPacket;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
 
 /**
  * Created by koz on 14/05/15.

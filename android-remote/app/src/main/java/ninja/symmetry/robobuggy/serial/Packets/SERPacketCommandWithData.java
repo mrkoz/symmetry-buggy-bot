@@ -1,4 +1,4 @@
-package ninja.symmetry.spider.serial.Packets;
+package ninja.symmetry.robobuggy.serial.Packets;
 
 import java.util.List;
 

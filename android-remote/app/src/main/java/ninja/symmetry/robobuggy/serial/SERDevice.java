@@ -1,4 +1,4 @@
-package ninja.symmetry.spider.serial;
+package ninja.symmetry.robobuggy.serial;
 
 import android.os.Message;
 //import android.support.v4.content.LocalBroadcastManager;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import ninja.symmetry.spider.serial.Packets.SERPacket;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
 
 /**
  * Created by koz on 18/07/2014.

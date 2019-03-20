@@ -1,4 +1,4 @@
-package ninja.symmetry.spider.serial;
+package ninja.symmetry.robobuggy.serial;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

@@ -1,4 +1,4 @@
-package ninja.symmetry.spider;
+package ninja.symmetry.robobuggy;
 
 import android.util.SparseArray;
 

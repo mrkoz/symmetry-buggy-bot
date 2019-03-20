@@ -1,4 +1,4 @@
-package ninja.symmetry.spider.serial;
+package ninja.symmetry.robobuggy.serial;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -6,9 +6,9 @@ import android.os.Message;
 
 import java.util.ArrayList;
 
-import ninja.symmetry.spider.MainActivity;
-import ninja.symmetry.spider.iMessageReceivableActivity;
-import ninja.symmetry.spider.serial.Packets.SERPacket;
+import ninja.symmetry.robobuggy.MainActivity;
+import ninja.symmetry.robobuggy.iMessageReceivableActivity;
+import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
 
 /**
  * Created by koz on 20/10/2014.

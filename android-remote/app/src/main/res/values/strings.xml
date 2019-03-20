@@ -16,7 +16,7 @@
     <string name="title_activity_robot_id">Robot Id</string>
     <string name="title_activity_serial_test">Testing the serial</string>
     <string name="title_activity_servo_basic_motion">ServoBasicMotion</string>
-    <string name="serial_port_name">ninja.symmetry.spiders.serial.portname</string>
+    <string name="serial_port_name">ninja.symmetry.robobuggy.serial.portname</string>
     <string name="title_activity_joystick">joystickActivity</string>
     <string name="title_activity_basic_absolutes">basic_absolutes</string>
     <string name="rotate2b">rotate2B</string>
