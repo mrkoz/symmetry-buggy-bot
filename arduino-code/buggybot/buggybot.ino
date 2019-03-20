@@ -8,38 +8,15 @@
 /*************************************************************************************************
 ** runtime, stats and configuration defines, loop, startup and setup methods
 **************************************************************************************************/
-  #define BTBAUDRATE 9600 // Baud rate of the serial port
-  #define BTHEARTBEATRATE 2000 //send a helo every 2 seconds
-  SymmetrySerial bluetoothComms(&Serial3, BTBAUDRATE, BTHEARTBEATRATE);
-  
-  Timer motionTimer;
-  unsigned long lastLoop = millis();
-  unsigned long lastMove = millis();
+  SymmetrySerial bluetoothComms(&Serial2, BTBAUDRATE, BTHEARTBEATRATE);
 
-  //stats counters 
-  uint16_t count = 0;
-  uint16_t heartbeatCount = 0;
-  uint16_t failedMessageCount = 0;
-  uint16_t successMessageCount = 0;
-
-  //message buffers
-  char outputMessage[250];
-
-  // debugging?
-  bool debug = false;
-
-  //the loop time in MS
-  uint16_t loopTime = 5;
-  uint8_t motiontimerid = 0;
-  uint8_t uitimerid = 0;
-
-  void setup(void) {   
+  void setup(void) {
     // start up the serial ports
     startupSetupSerialAndTimers();
+    pinMode(blinkLed, OUTPUT);
 
     // do a loop so we're ready to rock
     lastHeartbeat = millis();
-    loop();
   }
 
   void loop() {
@@ -48,6 +25,8 @@
 
     // Any messages for me?
     bluetoothComms.poll();
+
+    blinkTimer.update();
     
     // hold up - this is only here in case of 
     if (loopTime > 0) {
@@ -58,15 +37,20 @@
   /** Start up the serial ports */
   void startupSetupSerialAndTimers() {
     // Debugging serial port setup
-    Serial.begin(SERIALBOUDRATE);
-    // Bluetooth Comms setup
+    Serial.begin(SERIALBAUDRATE);
+
     bluetoothComms.setCallBacks(ProcessComMessage, recieveStatusMessage);
+
+    // Bluetooth Comms connect
     bluetoothComms.connect();
 
     // Setup the motion timer
-    motiontimerid = motionTimer.every(walkPhaseTime, servoContinue);
-    // Setup the UI update timer
-    uitimerid = uiDebugTimer.every(TIMEOUT_UI_REFRESH, updateUiDebugMessages);
+    blinkTimerId = blinkTimer.every(500, blinkArduinoLED);
+  }
+
+  void blinkArduinoLED() {
+    blinkState = (blinkState == HIGH? LOW : HIGH);
+    digitalWrite(blinkLed, blinkState);
   }
 
 /**************************************************************************************************
@@ -75,89 +59,15 @@
   void recieveStatusMessage(uint8_t message) {
     switch (message) {
       case HELO:
-        if (debug) {
-          echoToSerial("HELO, sending ACK");
-        }
-        bluetoothComms.sendStatusACK();
         heartbeatCount++;
-        break;
-      case ACK:
-        if (debug) {
-          echoToSerial("ACK received");
-        }
-        break;
-      case NACK:
-        if (debug) {
-          echoToSerial("NACK received");
-        }
-        break;
-      case FAIL:
-        if (debug) {
-          echoToSerial("FAIL received");
-        }
         break;
       case STATUS_DEBUG_ON:
         echoToSerial("STATUS_DEBUG_ON received");
-        featureTestDumpMinMaxAndStances();
         debug = true;
-        #ifdef MODEL1
-        startupDrawUxAndFace();
-        #endif
         break;
       case STATUS_DEBUG_OFF:
         echoToSerial("STATUS_DEBUG_OFF received");
         debug = false;
-        #ifdef MODEL1
-        startupDrawUxAndFace();
-        #endif
-        break;
-      case STATUS_POWER_UP:
-        if (debug) {
-          echoToSerial("STATUS_POWER_UP received");
-        }
-        break;
-      case STATUS_POWER_DOWN:
-        if (debug) {
-          echoToSerial("STATUS_POWER_DOWN received");
-        }
-        break;
-      case STATUS_RESET_CPU:
-        if (debug) {
-          echoToSerial("STATUS_RESET_CPU received");
-        }
-        break;
-      case STATUS_RESET_COMMS:
-        if (debug) {
-          echoToSerial("STATUS_RESET_COMMS received");
-        }
-        break;
-      case STATUS_ERASE_EEPROM:
-        if (debug) {
-          echoToSerial("STATUS_ERASE_EEPROM received");
-        }
-        break;
-      case STATUS_RESET_TO_DEFAULTS:
-        if (debug) {
-          echoToSerial("STATUS_RESET_TO_DEFAULTS received");
-        }
-        idResetMinMaxDefaults();
-        idResetStanceSettings();
-        resetLegSettings();
-        break;
-      case STATUS_RESET_ZERO_ONE:
-        if (debug) {
-          echoToSerial("STATUS_RESET_ZERO_ONE received");
-        }
-        break;
-      case STATUS_RESET_ZERO_TWO:
-        if (debug) {
-          echoToSerial("STATUS_RESET_ZERO_TWO received");
-        }
-        break;
-      case STATUS_AUX:
-        if (debug) {
-          echoToSerial("STATUS_AUX received");
-        }
         break;
     }
     lastHeartbeat = millis();
@@ -174,6 +84,9 @@
     lastHeartbeat = millis();
 
     switch (bluetoothComms.getReceiveFeatureSet()) {
+      case FEATURE_STOP:
+        commandReceivedStop();
+        break;
       case FEATURE_DRIVE:
         commandReceivedDrive();
         break;
@@ -184,7 +97,6 @@
         success = false;
         break;
     }
-
     if (success) {
       successMessageCount++;
     }
@@ -193,31 +105,87 @@
     }
   }
 
+  // Update the stats counters (only loops at this stage)
+  void updateStats() {
+    //increment loop time
+    lastLoop = millis();
+
+    //increment the loop counter
+    count++;
+  }
+
+  void echoToSerial(const char* message) {
+    Serial.println(message);
+  }
+
 /**************************************************************************************************
 ** doing the actual stuff section
 **************************************************************************************************/
+  void commandReceivedStop() {
+    echoToSerial("called STOP");
+  }
+  
   void commandReceivedDrive() {
+    echoToSerial("drive");
+    byte power = bluetoothComms.getReceiveDataAt(0); // 0 - 100 value
+    switch (bluetoothComms.getReceiveFeature())
+    {
+      case FEATURE_DRIVE_FORWARD:
+        //do something driverish in a fairly forwardish way
+        sprintf(outputMessage, "FEATURE_DRIVE_FORWARD @ %d", power);
+        echoToSerial(outputMessage);
+        break;
+      case FEATURE_DRIVE_REVERSE:
+        //do something driverish in a kinda reversish way
+        sprintf(outputMessage, "FEATURE_DRIVE_REVERSE @ %d", power);
+        echoToSerial(outputMessage);
+        break;
+      case FEATURE_DRIVE_ANTICLOCKWISE:
+        //do something driverish in a roughly anticlockwise direction
+        sprintf(outputMessage, "FEATURE_DRIVE_ANTICLOCKWISE @ %d", power);
+        echoToSerial(outputMessage);
+        break;
+      case FEATURE_DRIVE_CLOCKWISE:
+        //do something driverish in a generally clockwise direction
+        sprintf(outputMessage, "FEATURE_DRIVE_CLOCKWISE @ %d", power);
+        echoToSerial(outputMessage);
+        break;
+    }
   }
 
   void commandReceivedExec() {
     switch (bluetoothComms.getReceiveFeature()) {
       case FEATURE_EXEC_1:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_1");
         break;
       case FEATURE_EXEC_2:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_2");
         break;
       case FEATURE_EXEC_3:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_3");
         break;
       case FEATURE_EXEC_4:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_4");
         break;
       case FEATURE_EXEC_5:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_5");
         break;
       case FEATURE_EXEC_6:
-        //do something featury      
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_6");
+        break;
+      case FEATURE_EXEC_7:
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_7");
+        break;
+      case FEATURE_EXEC_8:
+        //do something featury
+        echoToSerial("called FEATURE_EXEC_8");
         break;
     }
   }

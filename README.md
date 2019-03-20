@@ -28,11 +28,11 @@ The arduino code needs to have the following modules cloned into your library fo
 
 * Symmetry serial module
   * Does all the arduino-side message parsing
-  * [https://bitbucket.org/misterkoz/symmetryserial.arduino/](https://bitbucket.org/misterkoz/symmetryserial.arduino/)
+  * [symmetryserial.arduino](https://github.com/mrkoz/symmetryserial.arduino)
 * Modified timer.h module
   * Handles doing things in symmetry serial on a timer-based schedule
   * This fork allows the modification of the timer intervals
-  * [https://github.com/mrkoz/Timer](https://github.com/mrkoz/Timer)
+  * [Timer](https://github.com/mrkoz/Timer)
 
 ## How to use
 
