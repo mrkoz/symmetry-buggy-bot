@@ -1,28 +1,49 @@
 /**************************************************************************************************
-** Message Defines
+** runtime basic vars
 **************************************************************************************************/
 
-  /* status messages */
-  #define STATUS_DEBUG_ON 0xF0
-  #define STATUS_DEBUG_OFF 0xF1
-  #define STATUS_POWER_UP 0xF2
-  #define STATUS_POWER_DOWN 0xF3
-  #define STATUS_RESET_CPU 0xF4
-  #define STATUS_RESET_COMMS 0xF5
-  #define STATUS_ERASE_EEPROM 0xF6
-  #define STATUS_RESET_TO_DEFAULTS 0xF7
-  #define STATUS_RESET_ZERO_ONE 0xF8
-  #define STATUS_RESET_ZERO_TWO 0xF9
-  #define STATUS_AUX 0xFA
+
+  int heartbeatCurrentState = 2;
+  unsigned long lastHeartbeat = 5000;
+
+  Timer motionTimer;
+  unsigned long lastLoop = millis();
+  unsigned long lastMove = millis();
+
+  //stats counters 
+  uint16_t count = 0;
+  uint16_t heartbeatCount = 0;
+  uint16_t failedMessageCount = 0;
+  uint16_t successMessageCount = 0;
+
+  //message buffers
+  char outputMessage[250];
+
+  // debugging?
+  bool debug = false;
+
+  // blink timer
+  int blinkState = LOW;
+  Timer blinkTimer;
+  int blinkTimerId = 0;
+  int blinkLed = 13;
+
+  //the loop time in MS - no need to change this really
+  uint16_t loopTime = 100;
 
 /**************************************************************************************************
 ** Modules and items
 **************************************************************************************************/
-/*** drive command ***/
-  #define FEATURE_DRIVE  0x10
+/*** drive commands ***/
+  #define FEATURE_DRIVE 0x10
+  #define FEATURE_DRIVE_FORWARD       FEATURE_DRIVE + 0x01
+  #define FEATURE_DRIVE_REVERSE       FEATURE_DRIVE + 0x02
+  #define FEATURE_DRIVE_ANTICLOCKWISE FEATURE_DRIVE + 0x03
+  #define FEATURE_DRIVE_CLOCKWISE     FEATURE_DRIVE + 0x04
+  #define FEATURE_STOP 0x20
 
-/*** leg tweaks ***/
-  #define FEATURE_EXEC   0x20
+/*** exec commands ***/
+  #define FEATURE_EXEC 0x30
   #define FEATURE_EXEC_1 FEATURE_EXEC + 0x01
   #define FEATURE_EXEC_2 FEATURE_EXEC + 0x02
   #define FEATURE_EXEC_3 FEATURE_EXEC + 0x03
@@ -35,11 +56,13 @@
 /**************************************************************************************************
 ** Timers etc
 **************************************************************************************************/
+  /* heartbeat state defines */
   #define TIMEOUT_HEART_BEAT_WARN 2000
   #define TIMEOUT_HEART_BEAT_ERROR 4000
   #define HEARTBEAT_STATE_GOOD 0
   #define HEARTBEAT_STATE_WARN 1
   #define HEARTBEAT_STATE_ERROR 2
-  
-  int heartbeatCurrentState = 2;
-  unsigned long lastHeartbeat = 5000;
+
+  #define SERIALBAUDRATE 9600
+  #define BTBAUDRATE 9600 // Baud rate of the serial port
+  #define BTHEARTBEATRATE 2000 //send a helo every 2 seconds
