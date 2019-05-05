@@ -3,7 +3,7 @@
 **************************************************************************************************/
   #include <Timer.h>                  // A rather useful timer library to offset the comms loop requirement to the motion requirement
   #include <SymmetrySerial.h>         // My balanced protocol
-  #include <AltSoftSerial.h>
+  #include <AltSoftSerial.h>          // virtual serial port
 
   AltSoftSerial mySerial; // RX, TX
   SymmetrySerial bluetoothComms(&mySerial, 9600, 5000);
