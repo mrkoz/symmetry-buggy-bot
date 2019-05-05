@@ -34,8 +34,8 @@ public abstract class SERDevice {
     //heartbeat thread and parts
     protected Thread threadHeartBeat;
     public boolean threadHeartBeatKill = false;
-    public int threadHeartBeatWaitTime = 1000;
-    public int threadHeartBeatDieTime = 3000;
+    public int threadHeartBeatWaitTime = 5000;
+    public int threadHeartBeatDieTime = 20000;
 
     //send thread and parts
     protected Thread threadSend;

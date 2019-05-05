@@ -3,10 +3,13 @@ package ninja.symmetry.robobuggy;
 import android.os.Bundle;
 import android.view.View;
 import com.erz.joysticklibrary.JoyStick;
+
 import ninja.symmetry.robobuggy.serial.Packets.SERPacket;
 import ninja.symmetry.robobuggy.serial.Packets.SERPacketCommand;
 import ninja.symmetry.robobuggy.serial.Packets.SERPacketCommandWithSingle;
 import ninja.symmetry.robobuggy.serial.SERSerial;
+import java.time.Duration;
+import java.time.Instant;
 
 /* created from https://android-arsenal.com/details/1/2712 */
 
@@ -22,13 +25,16 @@ public class DrivingJoystick extends roboActivity implements JoyStick.JoyStickLi
     public static final int DIRECTION_DOWN = 6;
     public static final int DIRECTION_DOWN_LEFT = 7;
 
+    public Instant lastMsg = Instant.now();
+    public int millisLimit = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walking_joystick);
         joyStick = findViewById(R.id.joyStick);
         joyStick.setListener(this);
-        joyStick.setType(JoyStick.TYPE_4_AXIS);
+        joyStick.setType(JoyStick.TYPE_8_AXIS);
     }
 
     public void receiveConnectionStateChange(boolean connected) {
@@ -39,26 +45,31 @@ public class DrivingJoystick extends roboActivity implements JoyStick.JoyStickLi
     }
 
     public void onMove(JoyStick joyStick, double angle, double power, int direction) {
-        switch (direction) {
-            case DIRECTION_CENTER:
-                SERSerial.getInstance().sendMessage(new SERPacketCommand(SERPacket.FEATURE_STOP));
-                break;
-            case DIRECTION_UP:
-            case DIRECTION_LEFT_UP:
-            case DIRECTION_UP_RIGHT:
-                SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_FORWARD, (int) power));
-                break;
-            case DIRECTION_LEFT:
-                SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_ANTICLOCKWISE, (int) power));
-                break;
-            case DIRECTION_RIGHT:
-                SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_CLOCKWISE, (int) power));
-                break;
-            case DIRECTION_DOWN:
-            case DIRECTION_RIGHT_DOWN:
-            case DIRECTION_DOWN_LEFT:
-                SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_REVERSE, (int) power));
-                break;
+        Duration timeElapsed = Duration.between(lastMsg, Instant.now());
+
+        if (direction != DIRECTION_CENTER || timeElapsed.toMillis() > millisLimit) {
+            switch (direction) {
+                case DIRECTION_CENTER:
+                    SERSerial.getInstance().sendMessage(new SERPacketCommand(SERPacket.FEATURE_STOP));
+                    break;
+                case DIRECTION_UP:
+                case DIRECTION_LEFT_UP:
+                case DIRECTION_UP_RIGHT:
+                    SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_FORWARD, (int) power));
+                    break;
+                case DIRECTION_LEFT:
+                    SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_ANTICLOCKWISE, (int) power));
+                    break;
+                case DIRECTION_RIGHT:
+                    SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_CLOCKWISE, (int) power));
+                    break;
+                case DIRECTION_DOWN:
+                case DIRECTION_RIGHT_DOWN:
+                case DIRECTION_DOWN_LEFT:
+                    SERSerial.getInstance().sendMessage(new SERPacketCommandWithSingle(SERPacket.FEATURE_DRIVE_REVERSE, (int) power));
+                    break;
+            }
+            lastMsg = Instant.now();
         }
 
     }
