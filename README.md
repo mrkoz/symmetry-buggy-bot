@@ -36,7 +36,13 @@ The arduino code needs to have the following modules cloned into your library fo
 
 ## How to use
 
+### Fork
+
+You can just fork this repo and do PR's on changes if you want to make everything exactly the same.
+
 ### Make it yours - copy the repo
+
+If you want to make changes to the code that aren't goin to be pushed upstream, you might as well re-create your own repo :)
 
 First thing you need to do is copy the code out into your own repo. You can do this by following this process:
 
