@@ -13,6 +13,7 @@
 SymmetrySerial::SymmetrySerial(HardwareSerial *port, int baudRate) {
   _port = port;
   _baudRate = baudRate;
+  _portType = HWPORT;
 }
 
 /* Constructor with heartbeat */
@@ -20,6 +21,7 @@ SymmetrySerial::SymmetrySerial(HardwareSerial *port, int baudRate, unsigned long
   _port = port;
   _baudRate = baudRate;
   _heartBeat = heartBeat;
+  _portType = HWPORT;
 }
 
 /***** Constructors alt software serial *****/
@@ -27,6 +29,7 @@ SymmetrySerial::SymmetrySerial(HardwareSerial *port, int baudRate, unsigned long
 SymmetrySerial::SymmetrySerial(AltSoftSerial *port, int baudRate) {
   _port = port;
   _baudRate = baudRate;
+  _portType = ALTPORT;
 }
 
 /* Constructor with heartbeat */
@@ -34,6 +37,7 @@ SymmetrySerial::SymmetrySerial(AltSoftSerial *port, int baudRate, unsigned long 
   _port = port;
   _baudRate = baudRate;
   _heartBeat = heartBeat;
+  _portType = ALTPORT;
 }
 
 /***** Constructors software serial *****/
@@ -41,6 +45,7 @@ SymmetrySerial::SymmetrySerial(AltSoftSerial *port, int baudRate, unsigned long 
 SymmetrySerial::SymmetrySerial(SoftwareSerial *port, int baudRate) {
   _port = port;
   _baudRate = baudRate;
+  _portType = SSPORT;
 }
 
 /* Constructor with heartbeat */
@@ -48,6 +53,7 @@ SymmetrySerial::SymmetrySerial(SoftwareSerial *port, int baudRate, unsigned long
   _port = port;
   _baudRate = baudRate;
   _heartBeat = heartBeat;
+  _portType = SSPORT;
 }
 
 /* set callbacks */

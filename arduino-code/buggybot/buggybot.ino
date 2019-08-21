@@ -10,8 +10,6 @@
 /**************************************************************************************************
 ** runtime basic vars
 **************************************************************************************************/
-
-
   int heartbeatCurrentState = 2;
   unsigned long lastHeartbeat = 5000;
 
@@ -29,7 +27,7 @@
   char outputMessage[250];
 
   // debugging?
-  bool debug = false;
+  bool debug = true;
 
   // blink timer
   int blinkState = LOW;
