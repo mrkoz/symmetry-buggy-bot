@@ -1,8 +1,8 @@
 /**************************************************************************************************
 ** includes & target selection
 **************************************************************************************************/
-  #include <Timer.h>                  // A rather useful timer library to offset the comms loop requirement to the motion requirement
-  #include <SymmetrySerial.h>         // My balanced protocol
+  #include "Timer.h"                  // A rather useful timer library to offset the comms loop requirement to the motion requirement
+  #include "SymmetrySerial.h"         // My balanced protocol
   #include <AltSoftSerial.h>          // virtual serial port
 
   AltSoftSerial mySerial; // RX, TX
@@ -238,7 +238,7 @@
           sprintf(outputMessage, "FEATURE_DRIVE_ANTICLOCKWISE @ %d", power);
           echoToSerial(outputMessage);
         }
-        moveMotors(false, true, power, power);
+        moveMotors(true, false, power, power);
         break;
       case FEATURE_DRIVE_CLOCKWISE:
         //do something driverish in a generally clockwise direction
@@ -246,7 +246,7 @@
           sprintf(outputMessage, "FEATURE_DRIVE_CLOCKWISE @ %d", power);
           echoToSerial(outputMessage);
         }
-        moveMotors(true, false, power, power);
+        moveMotors(false, true, power, power);
         break;
     }
   }
