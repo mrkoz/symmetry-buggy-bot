@@ -145,3 +145,8 @@ It wouldn't be a free-bee without a challenge or 11.
 The `symmetry.serial` protocol doesn't have a python variant or a variant that works on raspberry pi, the next version will and will be able to be implemented to drive the robot from a raspberry pi if needed.
 
 Realistically if you were to do something a bit advanced, you'd use ROS and the ROS-Arduino bridge and the `symmetry.serial` protocol wouldn't be needed.
+
+
+## Trouble?
+
+The knockoff Uno R3 use a ch340 serial driver which needs a driver to work on osx - [the github project here has a simple solution](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver)
